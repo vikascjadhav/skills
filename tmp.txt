@@ -1,0 +1,196 @@
+You are a senior AI platform engineer and developer productivity architect.
+
+Your task is to DESIGN and GENERATE a complete Copilot Chat-based skill system for reviewing GitLab Merge Requests (MRs) using ONLY git protocol access (no APIs).
+
+This is NOT a simple prompt. You must generate a FULL skill framework with folders, configs, reusable prompts, and extensible rule systems.
+
+--------------------------------------------------
+## CONTEXT & CONSTRAINTS
+
+- Source control: GitLab
+- Access method: git protocol only (no REST APIs, no webhooks)
+- Execution: GitHub Copilot Chat mode (interactive, no API key usage)
+- User manually provides git diff or runs git commands locally
+- Output must support human-in-the-loop workflow
+
+--------------------------------------------------
+## OBJECTIVE
+
+Build a reusable "MR Review Skill" that:
+
+1. Accepts git diff as input
+2. Performs deep code review (semantic, not just lint)
+3. Applies configurable rules (language + org-level)
+4. Produces:
+   - Detailed review report
+   - Impact analysis for each issue
+   - Suggested patch (diff format)
+   - Optional commit message
+5. Supports iterative refinement:
+   - User says "ok" → generate final patch
+   - User modifies feedback → refine output
+
+--------------------------------------------------
+## REQUIRED OUTPUT STRUCTURE
+
+You MUST generate a folder-based skill system (NOT .skill file):
+
+you can use references also
+you can use below strcture but give priority to agent skill standard structure than this 
+copilot-mr-reviewer/
+  prompts/
+  rules/
+  config/
+  templates/
+  scripts/
+  tests/
+  README.md
+
+--------------------------------------------------
+## REQUIREMENTS
+
+### 1. Prompt System
+
+Create:
+- system_prompt.md → defines reviewer behavior
+- review_prompt.md → used for initial diff analysis
+- followup_prompt.md → handles user feedback loop
+
+Prompts must:
+- enforce deep reasoning
+- require impact explanation
+- avoid generic comments
+- ensure structured output
+
+--------------------------------------------------
+### 2. Rule Engine (CRITICAL)
+
+Design rule system as YAML files:
+
+- general_rules.yaml
+- language-specific rules (java, python, kubernetes, etc.)
+- security_rules.yaml
+
+Each rule must include:
+- name
+- description
+- severity (critical/major/minor)
+- detection intent
+
+Rules must be easily extendable by user later.
+
+--------------------------------------------------
+### 3. Configurability
+
+Create config files:
+
+default_config.yaml:
+- base_branch (default: develop)
+- ability to change comparison branch
+- enable/disable rule categories
+- output options (patch, commit message)
+
+repo_config.yaml:
+- overrides per repository
+
+--------------------------------------------------
+### 4. Git-Based Workflow
+
+Provide scripts:
+
+- fetch_mr.sh → fetch branch and prepare diff
+- diff_extractor.sh → generate diff against configurable base branch
+
+Assume:
+- no MR metadata available
+- user provides branch manually
+
+--------------------------------------------------
+### 5. Output Templates
+
+Provide templates:
+
+- review_output.md
+- patch_template.diff
+
+Must include:
+- summary
+- categorized issues
+- line references
+- suggested fixes
+- risk level
+
+--------------------------------------------------
+### 6. Interactive Flow
+
+Design prompts such that:
+
+- Initial review is detailed and structured
+- Follow-up prompt:
+    IF user says "ok":
+        → generate final patch + commit message
+    IF user provides feedback:
+        → refine analysis and patch
+    IF unclear:
+        → ask precise clarification questions
+
+--------------------------------------------------
+### 7. Language Awareness
+
+System must:
+- detect language from diff (file extensions)
+- apply relevant rule files dynamically
+
+--------------------------------------------------
+### 8. Advanced Review Expectations
+
+Ensure system checks:
+- correctness
+- performance regressions
+- concurrency issues
+- security vulnerabilities
+- observability gaps (logs, metrics, traces)
+- backward compatibility
+
+--------------------------------------------------
+### 9. Testing Framework (MANDATORY)
+
+Create tests/ folder with:
+
+- sample diffs
+- expected outputs
+- instructions to validate skill quality
+
+Include:
+- null safety bug case
+- performance issue case
+- security issue case
+
+--------------------------------------------------
+### 10. README.md
+
+Must include:
+- how to use with Copilot Chat
+- how to paste diff
+- how to configure base branch
+- how to extend rules
+- limitations (no GitLab API)
+
+--------------------------------------------------
+## QUALITY BAR
+
+- Output must be production-grade
+- Avoid placeholders like "add logic here"
+- Provide realistic examples
+- Ensure everything is usable immediately
+
+--------------------------------------------------
+## IMPORTANT
+
+- DO NOT generate a review of code
+- DO NOT assume GitLab API access
+- DO NOT simplify architecture
+
+You are building a real internal engineering tool.
+
+Now generate the complete skill system.
